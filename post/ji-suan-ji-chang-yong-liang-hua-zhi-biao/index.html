@@ -12,13 +12,16 @@
     <link rel="stylesheet" href="/media/css/post.css">
     <link rel="stylesheet" href="/media/live2d/css/live2d.css" />
     
+<link rel="stylesheet" href="/media/css/features.css">
 </head>
 <body class=" mdui-appbar-with-toolbar  mdui-theme-primary-pink mdui-theme-accent-pink">
+<div id="reading-progress-bar"><div id="reading-progress"></div></div>
 <header class="mdui-toolbar mdui-color-pink mdui-appbar-fixed mdui-appbar-scroll-toolbar-hide" style="z-index: 1000">
     <a href="javascript:;" mdui-drawer="{target: '#left-drawer',overlay:true}" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">menu</i></a>
     <span class="mdui-typo-title">舞秋风Blog</span>
     <div class="mdui-toolbar-spacer"></div>
 <!--    <a href="javascript:history.go(0);" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+    <a href="javascript:;" id="dark-mode-toggle" class="mdui-btn mdui-btn-icon" title="暗色模式"><i class="mdui-icon material-icons">dark_mode</i></a>
     <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">more_vert</i></a>
 </header>
 
@@ -385,4 +388,5 @@
     
 </script>
 <script type="module" src="/media/js/post.js"></script>
+<script src="/media/js/features.js"></script>
 </html>

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/media/css/index.css">
     <link rel="stylesheet" href="/media/live2d/css/live2d.css" />
     
+    <link rel="stylesheet" href="/media/css/features.css">
     <style>
         #centerbg{
             background-image: url(/media/img/centerbg.jpg);
@@ -103,12 +104,14 @@
     </style>
 </head>
 <body class="mdui-loaded mdui-appbar-with-toolbar mdui-theme-primary-pink mdui-theme-accent-pink">
+<div id="reading-progress-bar"><div id="reading-progress"></div></div>
 <header class="mdui-toolbar mdui-color-theme mdui-appbar-fixed mdui-appbar-scroll-toolbar-hide" style="z-index: 1000">
     <a href="javascript:;" mdui-drawer="{target: '#left-drawer',overlay:true}" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">menu</i></a>
     
     <a href="/" class="mdui-typo-title" style="text-decoration: none; color: inherit;">舞秋风Blog</a>
     
     <div class="mdui-toolbar-spacer"></div>
+    <a href="javascript:;" id="dark-mode-toggle" class="mdui-btn mdui-btn-icon" title="暗色模式"><i class="mdui-icon material-icons">dark_mode</i></a>
     <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">more_vert</i></a>
 </header>
 <div class="meteor">
@@ -310,4 +313,5 @@
 </body>
 <script src="/media/mdui/js/mdui.min.js"></script>
 <script src="/media/js/index.js"></script>
+<script src="/media/js/features.js"></script>
 </html>

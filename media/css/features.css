@@ -1,0 +1,179 @@
+/* ==================== 1. 回到顶部按钮 ==================== */
+#back-to-top {
+    position: fixed;
+    right: 30px;
+    bottom: 80px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #ff4081;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+    z-index: 9999;
+    transform: translateY(10px);
+}
+#back-to-top:hover {
+    transform: translateY(0) scale(1.1);
+    box-shadow: 0 4px 12px rgba(255, 64, 129, 0.5);
+}
+#back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* ==================== 2. 暗色模式 ==================== */
+body.dark-mode {
+    background: #1a1a2e !important;
+    color: #e0e0e0;
+}
+body.dark-mode .mdui-toolbar {
+    background-color: #16213e !important;
+    color: #e0e0e0;
+}
+body.dark-mode .mdui-toolbar .mdui-typo-title,
+body.dark-mode .mdui-toolbar .mdui-icon {
+    color: #e0e0e0 !important;
+}
+body.dark-mode .mdui-drawer {
+    background-color: #16213e !important;
+    background-image: none !important;
+}
+body.dark-mode .mdui-list-item,
+body.dark-mode .mdui-subheader {
+    color: #e0e0e0 !important;
+}
+body.dark-mode .mdui-container {
+    background: #1a1a2e;
+}
+body.dark-mode .bili-card {
+    background-color: #16213e !important;
+    color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+body.dark-mode .bili-card-title {
+    color: #e0e0e0 !important;
+}
+body.dark-mode .bili-card-meta {
+    color: #999 !important;
+}
+body.dark-mode .site-info {
+    color: #888;
+}
+body.dark-mode .site-info a {
+    color: #bbb;
+}
+body.dark-mode .centerbg {
+    filter: brightness(0.6);
+}
+body.dark-mode .focusinfo .header-tou img {
+    filter: brightness(0.9);
+}
+body.dark-mode .header-info {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ccc;
+}
+body.dark-mode .mdui-card {
+    background-color: #16213e !important;
+    color: #e0e0e0;
+}
+body.dark-mode .mdui-card-primary-title,
+body.dark-mode .mdui-card-primary-subtitle {
+    color: #e0e0e0 !important;
+}
+body.dark-mode .mdui-color-white {
+    background-color: #16213e !important;
+}
+body.dark-mode .entry-title,
+body.dark-mode .entry-census {
+    color: #e0e0e0 !important;
+}
+body.dark-mode .neko,
+body.dark-mode .neko p,
+body.dark-mode .neko h1,
+body.dark-mode .neko h2,
+body.dark-mode .neko h3,
+body.dark-mode .neko h4,
+body.dark-mode .neko h5,
+body.dark-mode .neko h6 {
+    color: #e0e0e0;
+}
+body.dark-mode .neko {
+    background-color: #1a1a2e;
+}
+body.dark-mode .archives-list {
+    background-color: #16213e !important;
+}
+body.dark-mode .archives-list .mdui-typo-headline {
+    color: #ff80ab !important;
+}
+body.dark-mode .vertical-text {
+    color: #ff6b6b;
+    text-shadow: 0 0 2px #333, 0 0 6px #ff6b6b, 0 0 12px #ff4081;
+}
+
+/* ==================== 3. 阅读进度条 ==================== */
+#reading-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 9999;
+    background: transparent;
+}
+#reading-progress {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #ff4081, #ff80ab);
+    transition: width 0.1s linear;
+    border-radius: 0 2px 2px 0;
+}
+
+/* ==================== 4. 代码块复制按钮 ==================== */
+.code-block-wrapper {
+    position: relative;
+}
+.code-block-wrapper pre {
+    margin: 0;
+}
+.code-copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: #ccc;
+    padding: 4px 6px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, background 0.2s;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+.code-block-wrapper:hover .code-copy-btn {
+    opacity: 1;
+}
+.code-copy-btn:hover {
+    background: rgba(255, 64, 129, 0.3);
+    color: #ff80ab;
+}
+.code-copy-btn.copied {
+    color: #4caf50;
+    opacity: 1;
+}
+body.dark-mode .code-copy-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #999;
+}

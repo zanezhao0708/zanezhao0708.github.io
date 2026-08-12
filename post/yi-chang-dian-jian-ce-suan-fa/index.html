@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基于分类的方法异常点检测算法，有哪些好的方法？ - 舞秋风Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/media/mdui/css/mdui.min.css">
+    <link rel="stylesheet" href="/media/css/post.css">
+    <link rel="stylesheet" href="/media/live2d/css/live2d.css" />
+    
+    <link rel="stylesheet" href="/media/css/features.css">
+</head>
+<body class=" mdui-appbar-with-toolbar  mdui-theme-primary-pink mdui-theme-accent-pink">
+<div id="reading-progress-bar"><div id="reading-progress"></div></div>
+<header class="mdui-toolbar mdui-color-pink mdui-appbar-fixed mdui-appbar-scroll-toolbar-hide" style="z-index: 1000">
+    <a href="javascript:;" mdui-drawer="{target: '#left-drawer',overlay:true}" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">menu</i></a>
+    <span class="mdui-typo-title">舞秋风Blog</span>
+    <div class="mdui-toolbar-spacer"></div>
+    <a href="javascript:;" id="dark-mode-toggle" class="mdui-btn mdui-btn-icon" title="暗色模式"><i class="mdui-icon material-icons">dark_mode</i></a>
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">more_vert</i></a>
+</header>
+
+<div class="mdui-drawer mdui-color-white mdui-drawer-full-height mdui-drawer-close" id="left-drawer">
+    <ul class="mdui-list">
+        <li class="mdui-subheader">菜单</li>
+        
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/" class="mdui-list-item-content">首页</a>
+        </li>
+        
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/archives" class="mdui-list-item-content">归档</a>
+        </li>
+        
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/tags" class="mdui-list-item-content">标签</a>
+        </li>
+        
+    </ul>
+</div>
+
+<div id="content" class="site-content">
+    <div id="primary" class="content-area">
+        <main id="main" class="site-main" role="main">
+            <article id="post-zhihu" class="post-zhihu post type-post status-publish format-standard hentry">
+                <header class="entry-header">
+                    <h1 class="entry-title">基于分类的方法异常点检测算法，有哪些好的方法？</h1>
+                    <p class="entry-census">发布于 2026-08-13</p>
+                    <hr>
+                </header>
+                <div class="neko">
+                    <p>最新一代的视觉语言模型（Vision-Language Models, VLM）和多模态大语言模型（Multimodal Large Language Models, MLLM）的出现，标志着电力巡检自动化领域的一次范式革命。传统上，该领域依赖于需要大量标注数据的监督式深度学习方法，而新技术则转向了高度灵活、数据高效的零样本异常检测（Zero-Shot Anomaly Detection, ZSAD）系统。这种转变使得模型能够在无需针对特定缺陷类型进行训练的情况下，识别前所未见的异常，为解决行业中异常数据稀缺的关键痛点提供了可行的解决方案。</p>
+
+<h2>主流方法对比</h2>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>核心方法论</th>
+<th>基础架构</th>
+<th>关键创新</th>
+<th>优势</th>
+<th>潜在弱点</th>
+<th>理想的电力行业应用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AnomalyCLIP</td>
+<td>对象无关的提示学习</td>
+<td>VLM (CLIP)</td>
+<td>通用的“正常/异常”提示</td>
+<td>跨领域泛化能力强</td>
+<td>可能过度简化多样的异常类型</td>
+<td>对多样化资产进行初步、广泛的筛选</td>
+</tr>
+<tr>
+<td>PromptAD</td>
+<td>正常/异常双分支建模</td>
+<td>VLM (CLIP)</td>
+<td>分支间的跨视图交互</td>
+<td>显式建模两种状态；对未知异常稳健</td>
+<td>需要为两个分支精心设计提示</td>
+<td>“正常”定义明确但缺陷多样的场景</td>
+</tr>
+<tr>
+<td>Bayes-PFL</td>
+<td>贝叶斯提示空间学习</td>
+<td>VLM (CLIP)</td>
+<td>提示流模块（学习提示分布）</td>
+<td>捕捉复杂异常语义；泛化能力强</td>
+<td>概念和实现复杂度较高</td>
+<td>缺陷类型高度模糊或新颖的场景</td>
+</tr>
+<tr>
+<td>Anomaly-OV</td>
+<td>带专业视觉助手的 MLLM</td>
+<td>MLLM</td>
+<td>二次审视特征匹配 (LTFM)</td>
+<td>优秀的细粒度检测；提供推理/解释</td>
+<td>计算成本高于 VLM</td>
+<td>交互式巡检；关键故障的根本原因分析</td>
+</tr>
+<tr>
+<td>VMAD</td>
+<td>面向 IAD 的视觉增强 MLLM</td>
+<td>MLLM</td>
+<td>缺陷敏感结构学习 (DSSL)</td>
+<td>针对微小工业缺陷优化；提供解释</td>
+<td>主要聚焦于工业制造场景</td>
+<td>对发丝裂纹、腐蚀等微小缺陷的高精度检测</td>
+</tr>
+</tbody>
+</table>
+
+<p>（此处为图片：images/001.jpg）</p>
+
+<h2>常用数据集</h2>
+<table>
+<thead>
+<tr>
+<th>数据集名称</th>
+<th>领域</th>
+<th>内容描述</th>
+<th>规模</th>
+<th>标注类型</th>
+<th>关键特征与来源参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPLID</td>
+<td>电力行业</td>
+<td>正常及有缺陷的电力线路绝缘子。</td>
+<td>848 张图像（600 张正常，248 张缺陷）</td>
+<td>绝缘子及缺陷的边界框。</td>
+<td>专注于绝缘子；因真实数据稀少，缺陷图像为合成。</td>
+</tr>
+<tr>
+<td>TL-it</td>
+<td>电力行业</td>
+<td>输电线路组件的图文标签三元组。</td>
+<td>23,391 个三元组</td>
+<td>图像、文本描述、类别标签。</td>
+<td>专为 TL-CLIP 等 VLM 的领域专属预训练设计。</td>
+</tr>
+<tr>
+<td>MVTec-AD</td>
+<td>通用工业</td>
+<td>多种物体的高质量图像，包含不同类型的缺陷。</td>
+<td>约 5,000 张图像</td>
+<td>像素级异常掩码。</td>
+<td>无监督异常检测的黄金标准，适用于基准测试。</td>
+</tr>
+<tr>
+<td>VisA</td>
+<td>通用工业</td>
+<td>更复杂的工业场景，包含多个物体和缺陷类型。</td>
+<td>约 10,000 张图像</td>
+<td>像素级掩码。</td>
+<td>在复杂度上比 MVTec-AD 更进一步。</td>
+</tr>
+<tr>
+<td>COCO-Bridge</td>
+<td>基础设施</td>
+<td>无人机采集的关键桥梁组件图像。</td>
+<td>774 张图像</td>
+<td>边界框。</td>
+<td>与电力结构有相似性，可用于通用基础设施巡检。</td>
+</tr>
+</tbody>
+</table>
+
+<p>（此处为图片：images/002.jpg）</p>
+
+<h2>参考文献</h2>
+<ol>
+<li>基于视频图像的输变电设备外部缺陷检测技术及其应用现状 - 电子与信息学报。访问时间为 2025-08-22。 https://jeit.ac.cn/cn/article/doi/10.11999/JEIT211588?viewType=HTML</li>
+<li>基于 ER-YOLO 算法的跨环境输电线路缺陷识别方法 - 电工技术学报。访问时间为 2025-08-22。 https://dgjsxb.ces-transaction.com/fileup/HTML/2024-9-2825.htm</li>
+<li>Benchmarking Zero-Shot Recognition with Vision-Language Models: Challenges on Granularity and Specificity - CVF Open Access。访问时间为 2025-08-22。 https://openaccess.thecvf.com/content/CVPR2024W/MMFM/papers/Xu_Benchmarking_Zero-Shot_Recognition_with_Vision-Language_Models_Challenges_on_Granularity_and_CVPRW_2024_paper.pdf</li>
+<li>What Are Vision Language Models (VLMs)? - IBM。访问时间为 2025-08-22。 https://www.ibm.com/think/topics/vision-language-models</li>
+<li>[2501.02189] A Survey of State of the Art Large Vision Language Models: Alignment, Benchmark, Evaluations and Challenges - arXiv。访问时间为 2025-08-22。 https://arxiv.org/abs/2501.02189</li>
+<li>Vision-Language Models for Zero-Shot Classification of Remote Sensing Images - MDPI。访问时间为 2025-08-22。 https://www.mdpi.com/2076-3417/13/22/12462</li>
+<li>Exploring the Zero-Shot Capabilities of Vision-Language Models for Improving Gaze Following - CVF Open Access。访问时间为 2025-08-22。 https://openaccess.thecvf.com/content/CVPR2024W/GAZE/papers/Gupta_Exploring_the_Zero-Shot_Capabilities_of_Vision-Language_Models_for_Improving_Gaze_CVPRW_2024_paper.pdf</li>
+<li>TalkUHulk/Awesome-CLIP: A curated list of research based on CLIP. - GitHub。访问时间为 2025-08-22。 https://github.com/TalkUHulk/Awesome-CLIP</li>
+<li>Personalizing Vision-Language Models With Hybrid Prompts for Zero-Shot Anomaly Detection - PubMed。访问时间为 2025-08-22。 https://pubmed.ncbi.nlm.nih.gov/40031813/</li>
+<li>光明实验室工业视觉与智能系统团队工业异常检测新进展：基于 CLIP 的少样本工业异常分类方法。访问时间为 2025-08-22。 https://www.gml.ac.cn/kydt/672.html</li>
+<li>CN116701637A - 一种基于 clip 的零样本文本分类方法、系统及介质 - Google Patents。访问时间为 2025-08-22。 https://patents.google.com/patent/CN116701637A/zh</li>
+<li>Towards Zero-Shot Anomaly Detection and Reasoning with Multimodal Large Language Models - arXiv。访问时间为 2025-08-22。 https://arxiv.org/html/2502.07601v2</li>
+<li>Towards Zero-Shot Anomaly Detection and Reasoning with Multimodal Large Language Models - arXiv。访问时间为 2025-08-22。 https://arxiv.org/html/2502.07601v1</li>
+<li>Few-Shot Learning for Industrial Defect Detection Using Meta-Learning Techniques。访问时间为 2025-08-22。 https://www.researchgate.net/publication/392990976_Few-Shot_Learning_for_Industrial_Defect_Detection_Using_Meta-Learning_Techniques</li>
+<li>AnomalyCLIP: Object-agnostic Prompt Learning for Zero-shot。访问时间为 2025-08-22。 https://openreview.net/forum?id=buC4E91xZE</li>
+<li>Benchmarking Zero-Shot Recognition with Vision-Language Models: Challenges on Granularity and Specificity | OpenReview。访问时间为 2025-08-22。 https://openreview.net/forum?id=hdYqGkSr9S</li>
+<li>PromptAD: Zero-Shot Anomaly Detection Using ... - CVF Open Access。访问时间为 2025-08-22。 https://openaccess.thecvf.com/content/WACV2024/papers/Li_PromptAD_Zero-Shot_Anomaly_Detection_Using_Text_Prompts_WACV_2024_paper.pdf</li>
+<li>PromptAD: Zero-shot Anomaly Detection using Text Prompts - ResearchGate。访问时间为 2025-08-22。 https://www.researchgate.net/publication/379699771_PromptAD_Zero-shot_Anomaly_Detection_using_Text_Prompts</li>
+<li>CVPR Poster Bayesian Prompt Flow Learning for Zero-Shot Anomaly Detection。访问时间为 2025-08-22。 https://cvpr.thecvf.com/virtual/2025/poster/34073</li>
+<li>Bayesian Prompt Flow Learning for Zero-Shot Anomaly Detection - arXiv。访问时间为 2025-08-22。 https://arxiv.org/html/2503.10080v1</li>
+<li>Bayesian Prompt Flow Learning for Zero-Shot - CVF Open Access。访问时间为 2025-08-22。 https://openaccess.thecvf.com/content/CVPR2025/papers/Qu_Bayesian_Prompt_Flow_Learning_for_Zero-Shot_Anomaly_Detection_CVPR_2025_paper.pdf</li>
+<li>Appendix for Bayesian Prompt Flow Learning for Zero-Shot Anomaly Detection - CVF Open Access。访问时间为 2025-08-22。 https://openaccess.thecvf.com/content/CVPR2025/supplemental/Qu_Bayesian_Prompt_Flow_CVPR_2025_supplemental.pdf</li>
+<li>[Literature Review] Towards Zero-Shot Anomaly Detection and Reasoning with Multimodal Large Language Models - Moonlight。访问时间为 2025-08-22。 https://www.themoonlight.io/en/review/towards-zero-shot-anomaly-detection-and-reasoning-with-multimodal-large-language-models</li>
+<li>Towards Zero-Shot Anomaly Detection and ... - CVF Open Access。访问时间为 2025-08-22。 https://openaccess.thecvf.com/content/CVPR2025/papers/Xu_Towards_Zero-Shot_Anomaly_Detection_and_Reasoning_with_Multimodal_Large_Language_CVPR_2025_paper.pdf</li>
+<li>VMAD: Visual-enhanced Multimodal Large Language Model for Zero-Shot Anomaly Detection - arXiv。访问时间为 2025-08-22。 https://arxiv.org/html/2409.20146v1</li>
+<li>Large Vision-Language Models for Industrial Anomaly Detection: A Comprehensive Survey - IJERM。访问时间为 2025-08-22。 https://www.ijerm.com/download_data/IJERM1205001.pdf</li>
+<li>LR-IAD: Mask-Free Industrial Anomaly Detection with Logical Reasoning - arXiv。访问时间为 2025-08-22。 https://arxiv.org/pdf/2504.19524</li>
+<li>Airborne Power Line Inspection Service。访问时间为 2025-08-22。 https://pergamusa.com/pli</li>
+<li>Here's What To Do After Finding Hot Connectors On Overhead Power Lines - YouTube。访问时间为 2025-08-22。 https://www.youtube.com/watch?v=piQpLL5nD18</li>
+<li>LiPowerline Webinar | Power Line Inspection &amp; Analysis - YouTube。访问时间为 2025-08-22。 https://www.youtube.com/watch?v=gAXMMWuAdV0</li>
+<li>(PDF) Deep Learning in Automated Power Line Inspection: A Review - ResearchGate。访问时间为 2025-08-22。 https://www.researchgate.net/publication/388955304_Deep_Learning_in_Automated_Power_Line_Inspection_A_Review</li>
+<li>Defect Detection Technology of Tension Clamps Based on UAV | GBP Proceedings Series。访问时间为 2025-08-22。 https://www.gbspress.com/index.php/GBPPS/article/view/386</li>
+<li>Multi-Scale Feature Enhanced Domain Adaptive Object Detection For Power Transmission Line Inspection - ResearchGate。访问时间为 2025-08-22。 https://www.researchgate.net/publication/347156516_Multi-Scale_Feature_Enhanced_Domain_Adaptive_Object_Detection_For_Power_Transmission_Line_Inspection</li>
+<li>TL-CLIP: A Power-specific Multimodal Pre-trained Visual Foundation Model for Transmission Line Defect Recognition - arXiv。访问时间为 2025-08-22。 https://arxiv.org/html/2411.11370v1</li>
+<li>人工智能在变电站运维管理中的应用综述 - 中国电机工程学会。访问时间为 2025-08-22。 https://www.csee.org.cn/pic/u/cms/www/202004/09154752li72.pdf</li>
+<li>Research on Overhead Wires in Clips Defect Detection Based on Adaptive Sparse Time-Frequency Analysis。访问时间为 2025-08-22。 https://stru-en.tongji.edu.cn/EN/Y2023/V39/I1/46</li>
+<li>Enhancing Power Grid Inspections with Machine Learning - arXiv。访问时间为 2025-08-22。 https://arxiv.org/html/2502.13037v1</li>
+<li>Samples of the CPLID dataset (Reprinted from [36] under a CC BY...) - ResearchGate。访问时间为 2025-08-22。 https://www.researchgate.net/figure/Samples-of-the-CPLID-dataset-Reprinted-from-36-under-a-CC-BY-license-with-permission_fig5_384360260</li>
+<li>InsulatorData/InsulatorDataSet: Provide normal insulator - GitHub。访问时间为 2025-08-22。 https://github.com/InsulatorData/InsulatorDataSet</li>
+<li>基于深度学习的输电线路缺陷检测研究综述 - hanspub.org。访问时间为 2025-08-22。 https://pdf.hanspub.org/csa20230600000_71921827.pdf</li>
+<li>[Literature Review] TL-CLIP: A Power-specific Multimodal Pre ...。访问时间为 2025-08-22。 https://www.themoonlight.io/en/review/tl-clip-a-power-specific-multimodal-pre-trained-visual-foundation-model-for-transmission-line-defect-recognition</li>
+<li>A Power-specific Multimodal Pre-trained Visual Foundation Model for Transmission Line Defect Recognition - arXiv。访问时间为 2025-08-22。 https://arxiv.org/pdf/2411.11370</li>
+<li>What is parameter-efficient fine-tuning (PEFT)? - IBM。访问时间为 2025-08-22。 https://www.ibm.com/think/topics/parameter-efficient-fine-tuning</li>
+<li>Parameter-Efficient Fine-Tuning using PEFT - Hugging Face。访问时间为 2025-08-22。 https://huggingface.co/blog/peft</li>
+<li>LoRA in Vision Language Models: Efficient Fine-tuning with LLaVA - Artificial Intelligence in Plain English。访问时间为 2025-08-22。 https://ai.plainenglish.io/lora-in-vision-language-models-efficient-fine-tuning-with-llava-c8948674d855</li>
+<li>What LoRA Adapters for LLM Fine Tuning - Datawizz.ai。访问时间为 2025-08-22。 https://datawizz.ai/blog/what-are-low-rank-%28lora%29-adapters</li>
+<li>arXiv:2106.09685v2 [cs.CL] 16 Oct 2021。访问时间为 2025-08-22。 https://arxiv.org/abs/2106.09685</li>
+<li>huggingface/peft: PEFT: State-of-the-art Parameter-Efficient Fine-Tuning. - GitHub。访问时间为 2025-08-22。 https://github.com/huggingface/peft</li>
+<li>[2503.16945] PE-CLIP: A Parameter-Efficient Fine-Tuning of Vision Language Models for Dynamic Facial Expression Recognition - arXiv。访问时间为 2025-08-22。 https://arxiv.org/abs/2503.16945</li>
+<li>[Literature Review] PE-CLIP: A Parameter-Efficient Fine-Tuning of Vision Language Models for Dynamic Facial Expression Recognition - Moonlight。访问时间为 2025-08-22。 https://www.themoonlight.io/en/review/pe-clip-a-parameter-efficient-fine-tuning-of-vision-language-models-for-dynamic-facial-expression-recognition</li>
+<li>Fine-tuning Vision-Language Models with LoRA: A Practical Guide - Medium。访问时间为 2025-08-22。 https://medium.com/@c.cuadrado91/fine-tuning-vision-language-models-with-lora-a-practical-guide-d69ab52357e8</li>
+<li>(PDF) BRIDGE INSPECTION USING A MULTI-MODAL VISION LANGUAGE MODEL。访问时间为 2025-08-22。 https://www.researchgate.net/publication/388029712_BRIDGE_INSPECTION_USING_A_MULTI-MODAL_VISION_LANGUAGE_MODEL</li>
+<li>TLINet: A defects detection method for insulators of overhead transmission lines using partially transformer block | PLOS One。访问时间为 2025-08-22。 https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0327139</li>
+<li>XAI-guided Insulator Anomaly Detection for Imbalanced Datasets - arXiv。访问时间为 2025-08-22。 https://arxiv.org/html/2409.16821v1</li>
+<li>Enhancing grid reliability through advanced insulator defect identification | PLOS One。访问时间为 2025-08-22。 https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0307684</li>
+</ol>
+
+<p>（此处为图片：images/003.jpg）</p>
+                </div>
+            </article>
+        </main>
+    </div>
+</div>
+
+<footer class="mdui-container footer ">
+    <div class="mdui-row mdui-row-gapless">
+        <div class="k-container">
+            <img width="100%" src="/media/img/skirt.png">
+        </div>
+    </div>
+    <div class="site-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+</footer>
+<div id="landlord" style="left:5px;bottom:0px;">
+    <div class="message" style="opacity:0"></div>
+    <canvas id="live2d" width="500" height="560" class="live2d"></canvas>
+    <div class="live_talk_input_body">
+        <div class="live_talk_input_name_body">
+            <input name="name" type="text" class="live_talk_name white_input" id="AIuserName" autocomplete="off" placeholder="你的名字" />
+        </div>
+        <div class="live_talk_input_text_body">
+            <input name="talk" type="text" class="live_talk_talk white_input" id="AIuserText" autocomplete="off" placeholder="要和我聊什么呀？"/>
+            <button type="button" class="live_talk_send_btn" id="talk_send">发送</button>
+        </div>
+    </div>
+    <input name="live_talk" id="live_talk" value="1" type="hidden" />
+    <div class="live_ico_box">
+        <div class="live_ico_item type_info" id="showInfoBtn"></div>
+        <div class="live_ico_item type_talk" id="showTalkBtn"></div>
+        <div class="live_ico_item type_music" id="musicButton"></div>
+        <div class="live_ico_item type_youdu" id="youduButton"></div>
+        <div class="live_ico_item type_quit" id="hideButton"></div>
+        <input name="live_statu_val" id="live_statu_val" value="0" type="hidden" />
+        <audio src="" style="display:none;" id="live2d_bgm" data-bgm="0" preload="none"></audio>
+        <input name="live2dBGM" value="https://img.apa70.com/123.mp3" type="hidden">
+        <input name="live2dBGM" value="https://img.apa70.com/123.mp3" type="hidden">
+        <input id="duType" value="douqilai,l2d_caihong" type="hidden">
+    </div>
+</div>
+<div id="open_live2d">召唤伊斯特瓦尔</div>
+<script>
+    var message_Path = '/media/live2d/';
+    var talkAPI = "";
+</script>
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="/media/live2d/js/live2d.js"></script>
+<script type="text/javascript" src="/media/live2d/js/message.js"></script>
+
+</body>
+<script src="/media/mdui/js/mdui.min.js"></script>
+<script src="/media/js/features.js"></script>
+</html>

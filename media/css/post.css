@@ -40,8 +40,8 @@
 
 }
 
+/* 保留 ol 默认样式以保证有序列表编号正常显示 */
 ol {
-    list-style: none;
     margin: 0;
     padding: 0;
 }

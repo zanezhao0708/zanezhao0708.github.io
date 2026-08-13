@@ -8,10 +8,9 @@
  * 6. 阅读时间+字数统计
  * 7. 不蒜子访问统计
  * 8. 文章分享按钮
- * 9. 打赏按钮
- * 10. 上一篇/下一篇导航
- * 11. 相关文章推荐
- * 12. 全站搜索
+ * 9. 上一篇/下一篇导航
+ * 10. 相关文章推荐
+ * 11. 全站搜索
  */
 
 (function () {
@@ -254,27 +253,7 @@
         });
     }
 
-    // ==================== 9. 打赏按钮 ====================
-    if (articleContent && window.location.pathname !== '/' && window.location.pathname !== '/index.html') {
-        var donateContainer = document.createElement('div');
-        donateContainer.className = 'donate-container';
-        donateContainer.innerHTML =
-            '<button class="donate-btn"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.75 0 2.33-.81 2.33-1.48 0-.93-.5-1.37-2.67-2.03-2.54-.77-3.58-1.87-3.58-3.64 0-1.84 1.45-3.05 3.27-3.38V6h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-1.87-1.87-1.29 0-2.04.7-2.04 1.48 0 .77.39 1.3 2.36 1.95s3.89 1.34 3.89 3.67c-.01 2.08-1.57 3.26-3.42 3.57z"/></svg> 赞助博主</button>' +
-            '<div class="donate-qrcode">' +
-            '<img src="/images/wechat-pay.png" alt="微信支付"><img src="/images/alipay.png" alt="支付宝">' +
-            '<p>感谢您的支持与鼓励</p>' +
-            '</div>';
-
-        articleContent.appendChild(donateContainer);
-
-        var donateBtn = donateContainer.querySelector('.donate-btn');
-        var donateQrcode = donateContainer.querySelector('.donate-qrcode');
-        donateBtn.addEventListener('click', function () {
-            donateQrcode.classList.toggle('show');
-        });
-    }
-
-    // ==================== 10. 上一篇/下一篇导航 ====================
+    // ==================== 9. 上一篇/下一篇导航 ====================
     // 文章列表数据（可根据实际文章更新）
     var postList = [
         { url: '/post/yi-chang-dian-jian-ce-suan-fa/', title: '基于分类的方法异常点检测算法，有哪些好的方法？', date: '2026-08-13' },

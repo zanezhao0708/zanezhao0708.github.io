@@ -321,58 +321,7 @@ body.dark-mode .site-views { background: rgba(255, 255, 255, 0.05); }
 body.dark-mode .share-container { border-color: #333; }
 body.dark-mode .share-label { color: #aaa; }
 
-/* ==================== 9. 打赏按钮 ==================== */
-.donate-container {
-    text-align: center;
-    margin: 30px 0;
-}
-.donate-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 24px;
-    background: linear-gradient(135deg, #ff4081, #ff80ab);
-    color: #fff;
-    border: none;
-    border-radius: 25px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(255, 64, 129, 0.3);
-}
-.donate-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(255, 64, 129, 0.5);
-}
-.donate-btn svg {
-    width: 18px;
-    height: 18px;
-    fill: #fff;
-}
-.donate-qrcode {
-    display: none;
-    margin-top: 20px;
-    padding: 15px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-.donate-qrcode.show { display: block; }
-.donate-qrcode img {
-    width: 180px;
-    height: 180px;
-    margin: 0 10px;
-    border-radius: 4px;
-}
-.donate-qrcode p {
-    margin-top: 10px;
-    font-size: 12px;
-    color: #999;
-}
-body.dark-mode .donate-qrcode { background: #16213e; }
-body.dark-mode .donate-qrcode p { color: #888; }
-
-/* ==================== 10. 上一篇/下一篇导航 ==================== */
+/* ==================== 9. 上一篇/下一篇导航 ==================== */
 .post-navigation {
     display: flex;
     justify-content: space-between;
@@ -416,7 +365,7 @@ body.dark-mode .post-nav-label { color: #888; }
 body.dark-mode .post-nav-title { color: #ddd; }
 body.dark-mode .post-nav-item:hover { background: #ff4081; }
 
-/* ==================== 11. 相关文章推荐 ==================== */
+/* ==================== 10. 相关文章推荐 ==================== */
 .related-posts {
     margin: 30px 0;
     padding: 20px;
@@ -477,7 +426,7 @@ body.dark-mode .related-post-item { background: #1a1a2e; border-color: #333; }
 body.dark-mode .related-post-item:hover { border-color: #ff80ab; }
 body.dark-mode .related-post-item h4 { color: #ddd; }
 
-/* ==================== 12. 全站搜索 ==================== */
+/* ==================== 11. 全站搜索 ==================== */
 #search-overlay {
     position: fixed;
     top: 0;

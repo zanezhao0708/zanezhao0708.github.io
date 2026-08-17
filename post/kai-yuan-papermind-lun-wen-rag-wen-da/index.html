@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>开源 PaperMind：用中文问英文论文的 RAG 问答系统 - 舞秋风Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/media/mdui/css/mdui.min.css">
+    <link rel="stylesheet" href="/media/css/post.css">
+    <link rel="stylesheet" href="/media/live2d/css/live2d.css" />
+
+    <link rel="stylesheet" href="/media/css/features.css">
+</head>
+<body class=" mdui-appbar-with-toolbar  mdui-theme-primary-pink mdui-theme-accent-pink">
+<div id="reading-progress-bar"><div id="reading-progress"></div></div>
+<header class="mdui-toolbar mdui-color-pink mdui-appbar-fixed mdui-appbar-scroll-toolbar-hide" style="z-index: 1000">
+    <a href="javascript:;" mdui-drawer="{target: '#left-drawer',overlay:true}" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">menu</i></a>
+    <span class="mdui-typo-title">舞秋风Blog</span>
+    <div class="mdui-toolbar-spacer"></div>
+    <a href="javascript:;" id="dark-mode-toggle" class="mdui-btn mdui-btn-icon" title="暗色模式"><i class="mdui-icon material-icons">dark_mode</i></a>
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">more_vert</i></a>
+</header>
+
+<div class="mdui-drawer mdui-color-white mdui-drawer-full-height mdui-drawer-close" id="left-drawer">
+    <ul class="mdui-list">
+        <li class="mdui-subheader">菜单</li>
+
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/" class="mdui-list-item-content">首页</a>
+        </li>
+
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/archives" class="mdui-list-item-content">归档</a>
+        </li>
+
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/tags" class="mdui-list-item-content">标签</a>
+        </li>
+
+    </ul>
+</div>
+
+<div id="content" class="site-content">
+    <div id="primary" class="content-area">
+        <main id="main" class="site-main" role="main">
+            <article id="post-zhihu" class="post-zhihu post type-post status-publish format-standard hentry">
+                <header class="entry-header">
+                    <h1 class="entry-title">开源 PaperMind：用中文问英文论文的 RAG 问答系统</h1>
+                    <p class="entry-census">发布于 2026-08-17</p>
+                    <hr>
+                </header>
+                <div class="neko">
+                    <p><img src="/post-images/1787068800000.jpg" alt="PaperMind 项目封面" style="max-width:100%; border-radius:8px;"></p>
+
+<p>做科研的同学大概都有过这样的经历：arXiv 每天几十篇新论文涌出来，英文原文啃起来慢；读到第三篇的时候，第一篇里某个方法的细节已经记不清了，翻回去找又要在几十页 PDF 里大海捞针。</p>
+
+<p>这段时间我开源了一个小项目 <strong>PaperMind</strong>——面向<strong>计算机视觉异常检测（Industrial Anomaly Detection）</strong>领域的论文 RAG 问答系统。它解决两件事：<strong>用中文直接问英文论文</strong>，以及<strong>每天自动跟踪领域最新进展</strong>。这篇文章记录一下它的设计思路、关键技术决策和实测数据。</p>
+
+<h2>一、PaperMind 是什么</h2>
+
+<p>一句话：<strong>把一个领域的论文库变成一个可用中文提问、回答带引用标注的知识库。</strong></p>
+
+<p>上传论文 PDF（内置脚本一键下载 PatchCore / PaDiM / SPADE / CutPaste / DRAEM 等 8 篇经典），然后用中文问：</p>
+
+<blockquote><p>“PatchCore 是怎么用 coreset 采样构建 memory bank 的？”</p></blockquote>
+
+<p>系统会检索出最相关的英文原文片段，交给 LLM 生成中文回答，并且<strong>每个结论都带 [1][2] 引用标注</strong>，点击可以回查原文核验——回答有据可查，而不是模型自由发挥。</p>
+
+<h2>二、两大核心功能</h2>
+
+<p><strong>1. 中文提问，英文论文直接出答案</strong></p>
+
+<p>底层用多语言嵌入模型（paraphrase-multilingual-MiniLM-L12-v2）做跨语言检索：中文问句和英文论文段落被映射到同一个语义空间，所以“如何做异常检测”能直接命中 "anomaly detection" 的段落，不需要先翻译查询。</p>
+
+<p><strong>2. 每日 arXiv 日报，全自动</strong></p>
+
+<p>GitHub Actions 每天北京时间 09:00 自动完成：抓取 arXiv 最新 CV 异常检测论文 → LLM 中文解读（标题翻译 / 一句话总结 / 方法亮点 / 推荐评级）→ 生成日报提交到仓库。Star 之后每天来仓库看一眼 digest 目录，就能跟上领域进展。同时新论文持续进入 RAG 知识库——日报和问答共用一条供给链路。</p>
+
+<h2>三、系统架构</h2>
+
+<pre><code>摄入链路：
+PDF/TXT/MD → Loader(pypdf 抽取) → Chunker(递归分割 800/120)
+           → Embedder(三级降级) → VectorStore(NumPy 余弦, 持久化)
+
+问答链路：
+中文问题 → Embedder(查询嵌入) → Retriever(BM25+稠密混合检索)
+         → Generator(DeepSeek LLM) → 带引用标注的回答</code></pre>
+
+<h2>四、关键技术决策</h2>
+
+<h3>4.1 混合检索：BM25 + 稠密向量，RRF 融合</h3>
+
+<p>这是项目里我做得最认真的一块。稠密向量擅长语义泛化（中文问句 → 英文论文），但对专业术语（PatchCore、coreset、MVTec）的词面精确匹配是弱项；BM25 正好相反。两路排名用 RRF（Reciprocal Rank Fusion）融合——按排名而不是分数融合，天然规避两种打分量纲不可比的问题。中文分词用 CJK 字符 bigram，零分词库依赖。</p>
+
+<p>我自建了一个 16 题中文评测集（scripts/eval_retrieval.py），在真实论文库上实测（8 篇经典论文 / 631 个块）：</p>
+
+<table>
+<thead>
+<tr>
+<th>检索模式</th>
+<th>R@1</th>
+<th>R@3</th>
+<th>R@5</th>
+<th>MRR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dense（纯向量）</td>
+<td>0.750</td>
+<td>0.938</td>
+<td>1.000</td>
+<td>0.846</td>
+</tr>
+<tr>
+<td>bm25（纯词面）</td>
+<td><strong>0.875</strong></td>
+<td>0.875</td>
+<td>0.875</td>
+<td>0.875</td>
+</tr>
+<tr>
+<td><strong>hybrid（混合）</strong></td>
+<td>0.812</td>
+<td><strong>1.000</strong></td>
+<td><strong>1.000</strong></td>
+<td><strong>0.906</strong></td>
+</tr>
+</tbody>
+</table>
+
+<p>结论很直观：BM25 补上了术语精确匹配的短板（R@3 从 0.938 提升到 1.000），混合模式的 MRR 最高。检索优化不能凭感觉，要靠评测集说话。</p>
+
+<h3>4.2 为什么用 NumPy 而不是 FAISS</h3>
+
+<p>论文库量级小（千级块、384 维），暴力余弦一次矩阵乘法就是全库打分，延迟 &lt;10ms，而且是精确检索。FAISS 的价值在 ANN 索引换速度，百万级向量才有意义。用 NumPy 还让全流程透明可解释——余弦相似度就是 L2 归一化后的点积，每一步都可观察、可调试。</p>
+
+<h3>4.3 嵌入三级降级：无网无 Key 也能跑</h3>
+
+<ol>
+<li><strong>API 嵌入</strong>：OpenAI 兼容 /embeddings 端点（配置即用）；</li>
+<li><strong>本地语义嵌入</strong>：fastembed + ONNX Runtime，免 torch，部署轻；</li>
+<li><strong>哈希兜底</strong>：词/字符 n-gram 哈希投影，纯离线（降级为词面匹配）。</li>
+</ol>
+
+<p>降级路径本身也被测试覆盖——42 个测试全部离线运行，不下载模型、不联网，2 秒跑完。</p>
+
+<h2>五、工程化实践</h2>
+
+<ul>
+<li><strong>测试</strong>：42 个用例覆盖分块 / 向量库 / 嵌入降级 / BM25 / 混合检索 / 端到端 / HTTP 契约；</li>
+<li><strong>CI</strong>：push/PR 自动 lint + pytest（Python 3.10–3.12 矩阵）；</li>
+<li><strong>增量摄入</strong>：按 source 替换旧块，重复上传不膨胀；</li>
+<li><strong>Web 服务</strong>：应用工厂 + 懒加载 + 健康探针 + 统一 JSON 错误处理；</li>
+<li><strong>部署</strong>：Docker 一键起 gunicorn，也可 pip install 后用 CLI。</li>
+</ul>
+
+<h2>六、快速开始</h2>
+
+<pre><code>git clone https://github.com/zanezhao0708/PaperMindRAG.git
+cd PaperMindRAG
+pip install -r requirements.txt
+
+python scripts/download_papers.py   # 下载 8 篇经典论文
+python app.py                        # 打开 http://127.0.0.1:5000</code></pre>
+
+<h2>七、局限与规划</h2>
+
+<p>目前 PDF 只抽取文本，图表内容无法解析，后续可以引入多模态文档解析；嵌入还没有缓存，可以按 chunk 哈希做增量复用；评测集计划扩展为人工标注的多文档混合问题。</p>
+
+<h2>相关链接</h2>
+
+<ul>
+<li>项目地址：<a href="https://github.com/zanezhao0708/PaperMindRAG">github.com/zanezhao0708/PaperMindRAG</a>（MIT 协议）</li>
+<li>每日论文日报：<a href="https://github.com/zanezhao0708/PaperMindRAG/tree/main/digest">digest/ 目录</a>，每天北京时间 09:00 自动更新</li>
+</ul>
+
+<p>如果项目对你有帮助，欢迎 Star / Fork / PR。也欢迎在评论区交流 RAG 检索优化的话题。</p>
+                </div>
+            </article>
+        </main>
+    </div>
+</div>
+
+<footer class="mdui-container footer ">
+    <div class="mdui-row mdui-row-gapless">
+        <div class="k-container">
+            <img width="100%" src="/media/img/skirt.png">
+        </div>
+    </div>
+    <div class="site-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+</footer>
+<div id="landlord" style="left:5px;bottom:0px;">
+    <div class="message" style="opacity:0"></div>
+    <canvas id="live2d" width="500" height="560" class="live2d"></canvas>
+    <div class="live_talk_input_body">
+        <div class="live_talk_input_name_body">
+            <input name="name" type="text" class="live_talk_name white_input" id="AIuserName" autocomplete="off" placeholder="你的名字" />
+        </div>
+        <div class="live_talk_input_text_body">
+            <input name="talk" type="text" class="live_talk_talk white_input" id="AIuserText" autocomplete="off" placeholder="要和我聊什么呀？"/>
+            <button type="button" class="live_talk_send_btn" id="talk_send">发送</button>
+        </div>
+    </div>
+    <input name="live_talk" id="live_talk" value="1" type="hidden" />
+    <div class="live_ico_box">
+        <div class="live_ico_item type_info" id="showInfoBtn"></div>
+        <div class="live_ico_item type_talk" id="showTalkBtn"></div>
+        <div class="live_ico_item type_music" id="musicButton"></div>
+        <div class="live_ico_item type_youdu" id="youduButton"></div>
+        <div class="live_ico_item type_quit" id="hideButton"></div>
+        <input name="live_statu_val" id="live_statu_val" value="0" type="hidden" />
+        <audio src="" style="display:none;" id="live2d_bgm" data-bgm="0" preload="none"></audio>
+        <input name="live2dBGM" value="https://img.apa70.com/123.mp3" type="hidden">
+        <input name="live2dBGM" value="https://img.apa70.com/123.mp3" type="hidden">
+        <input id="duType" value="douqilai,l2d_caihong" type="hidden">
+    </div>
+</div>
+<div id="open_live2d">召唤伊斯特瓦尔</div>
+<script>
+    var message_Path = '/media/live2d/';
+    var talkAPI = "";
+</script>
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="/media/live2d/js/live2d.js"></script>
+<script type="text/javascript" src="/media/live2d/js/message.js"></script>
+
+</body>
+<script src="/media/mdui/js/mdui.min.js"></script>
+<script src="/media/js/features.js"></script>
+</html>

@@ -2,14 +2,25 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zanezhao0708.github.io</id>
     <title>舞秋风Blog</title>
-    <updated>2025-09-05T06:50:19.073Z</updated>
+    <updated>2026-08-17T08:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zanezhao0708.github.io"/>
     <link rel="self" href="https://zanezhao0708.github.io/atom.xml"/>
     <subtitle>Wanna change and make the World better</subtitle>
     <logo>https://zanezhao0708.github.io/images/avatar.png</logo>
     <icon>https://zanezhao0708.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2025, 舞秋风Blog</rights>
+    <rights>All rights reserved 2026, 舞秋风Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[开源 PaperMind：用中文问英文论文的 RAG 问答系统]]></title>
+        <id>https://zanezhao0708.github.io/post/kai-yuan-papermind-lun-wen-rag-wen-da/</id>
+        <link href="https://zanezhao0708.github.io/post/kai-yuan-papermind-lun-wen-rag-wen-da/">
+        </link>
+        <updated>2026-08-17T08:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>把一个领域的论文库变成可用中文提问、回答带引用标注的知识库：BM25+稠密向量混合检索实测 MRR 0.906，每日 arXiv 日报全自动更新。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>把一个领域的论文库变成可用中文提问、回答带引用标注的知识库：BM25+稠密向量混合检索实测 MRR 0.906，每日 arXiv 日报全自动更新。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[计算机网络总结]]></title>
         <id>https://zanezhao0708.github.io/post/ji-suan-ji-wang-luo-zong-jie/</id>
